@@ -43,9 +43,8 @@ func OAuthLoginSession(clientID string, clientSecret string, scope string) (*OAu
 			return nil, readErr
 		}
 
-		bodyString := string(body)
 		var oauthjson map[string]interface{}
-		json.Unmarshal([]byte(bodyString), &oauthjson)
+		json.Unmarshal(body, &oauthjson)
 		return nil, errors.New(fmt.Sprintf("Did not a return a good status code.\nCode: %d\nError: %s", response.StatusCode, oauthjson["error"]))
 	}
 
@@ -56,8 +55,12 @@ func OAuthLoginSession(clientID string, clientSecret string, scope string) (*OAu
 		return nil, readErr
 	}
 
-	bodyString := string(body)
-	json.Unmarshal([]byte(bodyString), Oauth)
+	var oauthjson map[string]interface{}
+	json.Unmarshal(body, &oauthjson)
+	Oauth.AccessToken = oauthjson["access_token"].(string)
+	Oauth.ExpireTime = oauthjson["expires_in"].(float64)
+	Oauth.Scopes = oauthjson["scope"].([]string)
+	Oauth.TokenType = oauthjson["token_type"].(string)
 
 	go Oauth.expireTimeCountdown()
 
