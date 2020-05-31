@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	twitchgo ".."
+	twitchgo "github.com/KaleBBuR/Twitch-Go"
 )
 
 type Private struct {
