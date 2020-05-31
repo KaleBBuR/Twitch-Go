@@ -341,10 +341,10 @@ type OAuth2 struct {
 	ClientID     string
 	ClientSecret string
 	Scope        string
-	AccessToken  string   `json:"access_token"`
-	ExpireTime   float64  `json:"expires_in"`
-	Scopes       []string `json:"scope"`
-	TokenType    string   `json:"token_type"`
+	AccessToken  string
+	ExpireTime   float64
+	Scopes       []string
+	TokenType    string
 }
 
 type TwitchRequest struct {
