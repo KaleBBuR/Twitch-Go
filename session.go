@@ -74,7 +74,7 @@ func OAuthLoginSession(clientID string, clientSecret string, scope string) (*OAu
 	}
 
 	bodyString := string(body)
-	json.Unmarshal([]byte(bodyString), &Oauth2)
+	json.Unmarshal([]byte(bodyString), Oauth2)
 
 	go Oauth2.expireTimeCountdown()
 
