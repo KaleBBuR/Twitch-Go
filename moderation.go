@@ -35,7 +35,7 @@ func (oauth *OAuth2) checkAutoModStatus(broadcasterID string, body []AutoModStat
 	return &postAutoModStatusJSON, nil
 }
 
-func (oauth2 *OAuth2) getBannedEvents(broadcasterID string, optionalParams map[string]interface{}) (*GetBannedEventsJSON, error) {
+func (oauth *OAuth2) getBannedEvents(broadcasterID string, optionalParams map[string]interface{}) (*GetBannedEventsJSON, error) {
 	getBannedEventsParams := make(map[string]interface{})
 
 	// Required Params
@@ -59,7 +59,7 @@ func (oauth2 *OAuth2) getBannedEvents(broadcasterID string, optionalParams map[s
 		NeedClientID: false,
 	}
 
-	responseString, responseErr := oauth2.twitchRequest(twitchRequestData, nil)
+	responseString, responseErr := oauth.twitchRequest(twitchRequestData, nil)
 	if responseErr != nil {
 		return nil, responseErr
 	}
@@ -70,7 +70,7 @@ func (oauth2 *OAuth2) getBannedEvents(broadcasterID string, optionalParams map[s
 	return &getBannedEventsJSON, nil
 }
 
-func (oauth2 *OAuth2) getBannedUsers(broadcasterID string, optionalParams map[string]interface{}) (*GetBannedUsersJSON, error) {
+func (oauth *OAuth2) getBannedUsers(broadcasterID string, optionalParams map[string]interface{}) (*GetBannedUsersJSON, error) {
 	getBannedUsersParams := make(map[string]interface{})
 
 	// Required Params
@@ -94,7 +94,7 @@ func (oauth2 *OAuth2) getBannedUsers(broadcasterID string, optionalParams map[st
 		NeedClientID: false,
 	}
 
-	responseString, responseErr := oauth2.twitchRequest(twitchRequestData, nil)
+	responseString, responseErr := oauth.twitchRequest(twitchRequestData, nil)
 	if responseErr != nil {
 		return nil, responseErr
 	}
@@ -105,7 +105,7 @@ func (oauth2 *OAuth2) getBannedUsers(broadcasterID string, optionalParams map[st
 	return &getBannedUsersJSON, nil
 }
 
-func (oauth2 *OAuth2) getMods(broadcasterID string, optionalParams map[string]interface{}) (*GetModsJSON, error) {
+func (oauth *OAuth2) getMods(broadcasterID string, optionalParams map[string]interface{}) (*GetModsJSON, error) {
 	getModsParams := make(map[string]interface{})
 
 	// Required Params
@@ -129,7 +129,7 @@ func (oauth2 *OAuth2) getMods(broadcasterID string, optionalParams map[string]in
 		NeedClientID: false,
 	}
 
-	responseString, responseErr := oauth2.twitchRequest(twitchRequestData, nil)
+	responseString, responseErr := oauth.twitchRequest(twitchRequestData, nil)
 	if responseErr != nil {
 		return nil, responseErr
 	}
@@ -140,7 +140,7 @@ func (oauth2 *OAuth2) getMods(broadcasterID string, optionalParams map[string]in
 	return &getModsJSON, nil
 }
 
-func (oauth2 *OAuth2) getModEvents(broadcasterID string, optionalParams map[string]interface{}) (*GetModEventsJSON, error) {
+func (oauth *OAuth2) getModEvents(broadcasterID string, optionalParams map[string]interface{}) (*GetModEventsJSON, error) {
 	getModEventsParams := make(map[string]interface{})
 
 	// Required Params
@@ -164,7 +164,7 @@ func (oauth2 *OAuth2) getModEvents(broadcasterID string, optionalParams map[stri
 		NeedClientID: false,
 	}
 
-	responseString, responseErr := oauth2.twitchRequest(twitchRequestData, nil)
+	responseString, responseErr := oauth.twitchRequest(twitchRequestData, nil)
 	if responseErr != nil {
 		return nil, responseErr
 	}

@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func (oauth2 *OAuth2) getVideos(ID string, userID string, gameID string, optionalParams map[string]interface{}) (*GetVideosJSON, error) {
+func (oauth *OAuth2) getVideos(ID string, userID string, gameID string, optionalParams map[string]interface{}) (*GetVideosJSON, error) {
 	getVideosParams := make(map[string]interface{})
 
 	// Required Params
@@ -31,7 +31,7 @@ func (oauth2 *OAuth2) getVideos(ID string, userID string, gameID string, optiona
 		NeedClientID: true,
 	}
 
-	responseString, responseErr := oauth2.twitchRequest(twitchRequest, nil)
+	responseString, responseErr := oauth.twitchRequest(twitchRequest, nil)
 	if responseErr != nil {
 		return nil, responseErr
 	}

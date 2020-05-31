@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func (oauth2 *OAuth2) createStreamMarker(userID string, optionalParams map[string]interface{}) (*CreateStreamMarkerJSON, error) {
+func (oauth *OAuth2) createStreamMarker(userID string, optionalParams map[string]interface{}) (*CreateStreamMarkerJSON, error) {
 	createStreamMarkerParams := make(map[string]interface{})
 
 	// Required Params
@@ -29,7 +29,7 @@ func (oauth2 *OAuth2) createStreamMarker(userID string, optionalParams map[strin
 		NeedClientID: false,
 	}
 
-	responseString, twitchRequestErr := oauth2.twitchRequest(twitchRequestData, nil)
+	responseString, twitchRequestErr := oauth.twitchRequest(twitchRequestData, nil)
 	if twitchRequestErr != nil {
 		return nil, twitchRequestErr
 	}
@@ -40,7 +40,7 @@ func (oauth2 *OAuth2) createStreamMarker(userID string, optionalParams map[strin
 	return &createStreamMarkerJSON, nil
 }
 
-func (oauth2 *OAuth2) getStreams(optionalParams map[string]interface{}) (*GetStreamsJSON, error) {
+func (oauth *OAuth2) getStreams(optionalParams map[string]interface{}) (*GetStreamsJSON, error) {
 	getStreamsParams := make(map[string]interface{})
 
 	// Required Params -> None
@@ -62,7 +62,7 @@ func (oauth2 *OAuth2) getStreams(optionalParams map[string]interface{}) (*GetStr
 		NeedClientID: true,
 	}
 
-	responseString, twitchRequestErr := oauth2.twitchRequest(twitchRequestData, nil)
+	responseString, twitchRequestErr := oauth.twitchRequest(twitchRequestData, nil)
 	if twitchRequestErr != nil {
 		return nil, twitchRequestErr
 	}
@@ -73,7 +73,7 @@ func (oauth2 *OAuth2) getStreams(optionalParams map[string]interface{}) (*GetStr
 	return &getStreamsJSON, nil
 }
 
-func (oauth2 *OAuth2) getStreamMarkers(userID string, videoID string, optionalParams map[string]interface{}) (*GetStreamMarkersJSON, error) {
+func (oauth *OAuth2) getStreamMarkers(userID string, videoID string, optionalParams map[string]interface{}) (*GetStreamMarkersJSON, error) {
 	getStreamMarkersParams := make(map[string]interface{})
 
 	// Required Params
@@ -98,7 +98,7 @@ func (oauth2 *OAuth2) getStreamMarkers(userID string, videoID string, optionalPa
 		NeedClientID: false,
 	}
 
-	responseString, responseErr := oauth2.twitchRequest(twitchRequestData, nil)
+	responseString, responseErr := oauth.twitchRequest(twitchRequestData, nil)
 	if responseErr != nil {
 		return nil, responseErr
 	}
@@ -109,7 +109,7 @@ func (oauth2 *OAuth2) getStreamMarkers(userID string, videoID string, optionalPa
 	return &getStreamMarkersJSON, nil
 }
 
-func (oauth2 *OAuth2) getStreamsMetadata(optionalParams map[string]interface{}) (*GetStreamsMetadataJSON, error) {
+func (oauth *OAuth2) getStreamsMetadata(optionalParams map[string]interface{}) (*GetStreamsMetadataJSON, error) {
 	getStreamsMetadataParams := make(map[string]interface{})
 
 	// Required Params -> None
@@ -131,7 +131,7 @@ func (oauth2 *OAuth2) getStreamsMetadata(optionalParams map[string]interface{}) 
 		NeedClientID: true,
 	}
 
-	responseString, responseErr := oauth2.twitchRequest(twitchRequestData, nil)
+	responseString, responseErr := oauth.twitchRequest(twitchRequestData, nil)
 	if responseErr != nil {
 		return nil, responseErr
 	}
@@ -142,7 +142,7 @@ func (oauth2 *OAuth2) getStreamsMetadata(optionalParams map[string]interface{}) 
 	return &getStreamsMetadataJSON, nil
 }
 
-func (oauth2 *OAuth2) getSubscriptions(broadcasterID string, optionalParams map[string]interface{}) (*GetSubscriptionsJSON, error) {
+func (oauth *OAuth2) getSubscriptions(broadcasterID string, optionalParams map[string]interface{}) (*GetSubscriptionsJSON, error) {
 	getSubsParams := make(map[string]interface{})
 
 	// Required Params
@@ -166,7 +166,7 @@ func (oauth2 *OAuth2) getSubscriptions(broadcasterID string, optionalParams map[
 		NeedClientID: false,
 	}
 
-	responseString, responseErr := oauth2.twitchRequest(twitchRequestData, nil)
+	responseString, responseErr := oauth.twitchRequest(twitchRequestData, nil)
 	if responseErr != nil {
 		return nil, responseErr
 	}
@@ -177,7 +177,7 @@ func (oauth2 *OAuth2) getSubscriptions(broadcasterID string, optionalParams map[
 	return &getSubsJSON, nil
 }
 
-func (oauth2 *OAuth2) getAllStreamTags(optionalParams map[string]interface{}) (*GetAllStreamTagsJSON, error) {
+func (oauth *OAuth2) getAllStreamTags(optionalParams map[string]interface{}) (*GetAllStreamTagsJSON, error) {
 	getAllStreamTagsParams := make(map[string]interface{})
 
 	// Required Params -> None
@@ -199,7 +199,7 @@ func (oauth2 *OAuth2) getAllStreamTags(optionalParams map[string]interface{}) (*
 		NeedClientID: true,
 	}
 
-	responseString, responseErr := oauth2.twitchRequest(twitchRequestData, nil)
+	responseString, responseErr := oauth.twitchRequest(twitchRequestData, nil)
 	if responseErr != nil {
 		return nil, responseErr
 	}
@@ -210,7 +210,7 @@ func (oauth2 *OAuth2) getAllStreamTags(optionalParams map[string]interface{}) (*
 	return &getAllStreamTagsJSON, nil
 }
 
-func (oauth2 *OAuth2) getStreamTags(broadcasterID interface{}) (*GetStreamTagsJSON, error) {
+func (oauth *OAuth2) getStreamTags(broadcasterID interface{}) (*GetStreamTagsJSON, error) {
 	getStreamTagsParams := make(map[string]interface{})
 
 	// Required Params
@@ -224,7 +224,7 @@ func (oauth2 *OAuth2) getStreamTags(broadcasterID interface{}) (*GetStreamTagsJS
 		NeedClientID: true,
 	}
 
-	responseString, responseErr := oauth2.twitchRequest(twitchRequestData, nil)
+	responseString, responseErr := oauth.twitchRequest(twitchRequestData, nil)
 	if responseErr != nil {
 		return nil, responseErr
 	}
@@ -235,7 +235,7 @@ func (oauth2 *OAuth2) getStreamTags(broadcasterID interface{}) (*GetStreamTagsJS
 	return &getStreamTagsJSON, nil
 }
 
-func (oauth2 *OAuth2) replaceStreamTag(broadcasterID string, tagIDs []string) (string, error) {
+func (oauth *OAuth2) replaceStreamTag(broadcasterID string, tagIDs []string) (string, error) {
 	getStreamTagsParams := make(map[string]interface{})
 
 	// Required Params
@@ -250,7 +250,7 @@ func (oauth2 *OAuth2) replaceStreamTag(broadcasterID string, tagIDs []string) (s
 
 	replaceStreamTagData := []byte(fmt.Sprintf(`{"tag_ids":"%s"`, tagIDs))
 	fmt.Printf("\n%s\n", fmt.Sprintf(`{"tag_ids":"%s"`, tagIDs))
-	responseString, responseErr := oauth2.twitchRequest(twitchRequestData, replaceStreamTagData)
+	responseString, responseErr := oauth.twitchRequest(twitchRequestData, replaceStreamTagData)
 	if responseErr != nil {
 		return "", responseErr
 	}
