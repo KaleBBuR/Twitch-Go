@@ -14,9 +14,9 @@ import (
 
 func OAuthLoginSession(clientID string, clientSecret string, scope string) (*OAuth2, error) {
 	Oauth := &OAuth2{
-		ClientID:     clientID,
-		ClientSecret: clientSecret,
-		Scope:        scope,
+		clientID:     clientID,
+		clientSecret: clientSecret,
+		scope:        scope,
 	}
 
 	formData := url.Values{
@@ -57,10 +57,10 @@ func OAuthLoginSession(clientID string, clientSecret string, scope string) (*OAu
 
 	var oauthjson map[string]interface{}
 	json.Unmarshal(body, &oauthjson)
-	Oauth.AccessToken = oauthjson["access_token"].(string)
-	Oauth.ExpireTime = oauthjson["expires_in"].(float64)
-	Oauth.Scopes = oauthjson["scope"].([]string)
-	Oauth.TokenType = oauthjson["token_type"].(string)
+	Oauth.accessToken = oauthjson["access_token"].(string)
+	Oauth.expireTime = oauthjson["expires_in"].(float64)
+	Oauth.scopes = oauthjson["scope"].([]string)
+	Oauth.tokenType = oauthjson["token_type"].(string)
 
 	go Oauth.expireTimeCountdown()
 
@@ -74,11 +74,11 @@ func (oauth *OAuth2) twitchRequest(twitchRequestData *TwitchRequest, requestData
 	}
 
 	if twitchRequestData.NeedClientID {
-		request.Header.Set("Client-ID", oauth.ClientID)
+		request.Header.Set("Client-ID", oauth.clientID)
 	}
 
 	if twitchRequestData.NeedOAuth2 {
-		request.Header.Set("Authorization", "Bearer "+oauth.AccessToken)
+		request.Header.Set("Authorization", "Bearer "+oauth.accessToken)
 	}
 
 	client := &http.Client{}
@@ -109,22 +109,22 @@ func (oauth *OAuth2) twitchRequest(twitchRequestData *TwitchRequest, requestData
 }
 
 func (oauth *OAuth2) expireTimeCountdown() {
-	expireTime := oauth.ExpireTime
+	expireTime := oauth.expireTime
 	for {
 		time.Sleep(1 * time.Second)
 		expireTime -= 1
 		if expireTime == 0 {
 			oAuth2, err := OAuthLoginSession(
-				oauth.ClientID,
-				oauth.ClientSecret,
-				oauth.Scope,
+				oauth.clientID,
+				oauth.clientSecret,
+				oauth.scope,
 			)
 
 			if err != nil {
 				log.Fatal(errors.New("Couldn't get new access token."))
 			}
 
-			oauth.AccessToken = oAuth2.AccessToken
+			oauth.accessToken = oAuth2.accessToken
 			oauth.expireTimeCountdown()
 		}
 	}

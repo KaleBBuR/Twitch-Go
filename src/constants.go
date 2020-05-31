@@ -338,13 +338,13 @@ type GetUserActiveExtensions struct {
 }
 
 type OAuth2 struct {
-	ClientID     string
-	ClientSecret string
-	Scope        string
-	AccessToken  string
-	ExpireTime   float64
-	Scopes       []string
-	TokenType    string
+	clientID     string
+	clientSecret string
+	scope        string
+	accessToken  string
+	expireTime   float64
+	scopes       []string
+	tokenType    string
 }
 
 type TwitchRequest struct {
