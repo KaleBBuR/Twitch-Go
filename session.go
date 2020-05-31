@@ -87,12 +87,6 @@ func (oauth2 *OAuth2) twitchRequest(twitchRequestData *TwitchRequest, requestDat
 		return "", postErr
 	}
 
-	fmt.Println("URL -> ", twitchRequestData.URL)
-	fmt.Println("Client ID -> ", oauth2.ClientID)
-	fmt.Println("Client Secret -> ", oauth2.ClientSecret)
-	fmt.Println("Access Token -> ", oauth2.AccessToken)
-	fmt.Println("Token Type -> ", oauth2.TokenType)
-
 	if twitchRequestData.NeedClientID {
 		request.Header.Set("Client-ID", oauth2.ClientID)
 	}
