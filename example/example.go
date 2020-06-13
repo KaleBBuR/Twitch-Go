@@ -23,7 +23,10 @@ func main() {
 
 	json.Unmarshal(raw, private)
 
-	session, err := gt.OAuthLoginSession(private.ClientID, private.ClientSecret, private.Scope)
+	clientID := private.ClientID
+	clientSecret := private.ClientSecret
+	scope := private.Scope
+	session, err := gt.OAuthLoginSession(clientID, clientSecret, scope)
 	if err != nil {
 		fmt.Printf(err.Error())
 		return
