@@ -12,8 +12,8 @@ import (
 	"time"
 )
 
-func OAuthLoginSession(clientID string, clientSecret string, scope string) (*OAuth2, error) {
-	Oauth := &OAuth2{
+func OAuthLoginSession(clientID string, clientSecret string, scope string) (*Session, error) {
+	sess := &Session{
 		clientID:     clientID,
 		clientSecret: clientSecret,
 		scope:        scope,
@@ -51,34 +51,45 @@ func OAuthLoginSession(clientID string, clientSecret string, scope string) (*OAu
 	defer response.Body.Close()
 
 	body, readErr := ioutil.ReadAll(response.Body)
+	bodyString := string(body)
 	if readErr != nil {
 		return nil, readErr
 	}
 
 	var oauthjson map[string]interface{}
-	json.Unmarshal(body, &oauthjson)
-	Oauth.accessToken = oauthjson["access_token"].(string)
-	Oauth.expireTime = oauthjson["expires_in"].(float64)
-	Oauth.scopes = oauthjson["scope"].([]string)
-	Oauth.tokenType = oauthjson["token_type"].(string)
+	json.Unmarshal([]byte(bodyString), &oauthjson)
+	accessToken, atOK := oauthjson["access_token"].(string)
+	expireTime, etOK := oauthjson["expires_in"].(float64)
+	scopes, sOK := oauthjson["scope"].([]string)
 
-	go Oauth.expireTimeCountdown()
+	if atOK && etOK {
+		sess.accessToken = accessToken
+		sess.expireTime = expireTime
+	} else {
+		return nil, errors.New("Can't get Expire Time or Access Token.")
+	}
 
-	return Oauth, nil
+	if sOK {
+		sess.scopes = scopes
+	}
+
+	go sess.expireTimeCountdown()
+
+	return sess, nil
 }
 
-func (oauth *OAuth2) twitchRequest(twitchRequestData *TwitchRequest, requestData []byte) (string, error) {
+func (sess *Session) TwitchRequest(twitchRequestData *TwitchRequest, requestData []byte) (string, error) {
 	request, postErr := http.NewRequest(twitchRequestData.HttpMethod, twitchRequestData.URL, bytes.NewBuffer(requestData))
 	if postErr != nil {
 		return "", postErr
 	}
 
 	if twitchRequestData.NeedClientID {
-		request.Header.Set("Client-ID", oauth.clientID)
+		request.Header.Set("Client-ID", sess.clientID)
 	}
 
 	if twitchRequestData.NeedOAuth2 {
-		request.Header.Set("Authorization", "Bearer "+oauth.accessToken)
+		request.Header.Set("Authorization", "Bearer "+sess.accessToken)
 	}
 
 	client := &http.Client{}
@@ -108,24 +119,24 @@ func (oauth *OAuth2) twitchRequest(twitchRequestData *TwitchRequest, requestData
 	return bodyString, nil
 }
 
-func (oauth *OAuth2) expireTimeCountdown() {
-	expireTime := oauth.expireTime
+func (sess1 *Session) expireTimeCountdown() {
+	expireTime := sess1.expireTime
 	for {
 		time.Sleep(1 * time.Second)
 		expireTime -= 1
 		if expireTime == 0 {
-			oAuth2, err := OAuthLoginSession(
-				oauth.clientID,
-				oauth.clientSecret,
-				oauth.scope,
+			sess2, err := OAuthLoginSession(
+				sess1.clientID,
+				sess1.clientSecret,
+				sess1.scope,
 			)
 
 			if err != nil {
 				log.Fatal(errors.New("Couldn't get new access token."))
 			}
 
-			oauth.accessToken = oAuth2.accessToken
-			oauth.expireTimeCountdown()
+			sess1.accessToken = sess2.accessToken
+			sess1.expireTimeCountdown()
 		}
 	}
 }

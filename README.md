@@ -4,6 +4,8 @@ This a Twitch API Wrapper made in Go-lang!
 I hope this is good enough for some, and you're able to use it in projects, or just try it out and give me some feedback is appreciated!
 If you do see this though, thanks for looking!
 
+### Sample Program
+
 ```go
 package main
 
@@ -12,7 +14,7 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	twitchgo "github.com/KaleBBuR/Twitch-Go"
+	gt "github.com/KaleBBuR/Twitch-Go"
 )
 
 type Private struct {

@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func (oauth *OAuth2) getUsers(optionalParams map[string]interface{}) (*GetUsersJSON, error) {
+func (sess *Session) GetUsers(optionalParams map[string]interface{}) (*GetUsersJSON, error) {
 	getUsersParams := make(map[string]interface{})
 
 	// Required Params -> None
@@ -27,7 +27,7 @@ func (oauth *OAuth2) getUsers(optionalParams map[string]interface{}) (*GetUsersJ
 		NeedClientID: false,
 	}
 
-	responseString, responseErr := oauth.twitchRequest(twitchRequest, nil)
+	responseString, responseErr := sess.TwitchRequest(twitchRequest, nil)
 	if responseErr != nil {
 		return nil, responseErr
 	}
@@ -38,7 +38,7 @@ func (oauth *OAuth2) getUsers(optionalParams map[string]interface{}) (*GetUsersJ
 	return &getUsersJSON, nil
 }
 
-func (oauth *OAuth2) getUsersFollowers(optionalParams map[string]interface{}) (*GetUsersFollowsJSON, error) {
+func (sess *Session) GetUsersFollowers(optionalParams map[string]interface{}) (*GetUsersFollowsJSON, error) {
 	getUsersFollowsParams := make(map[string]interface{})
 
 	// Required Params -> None
@@ -60,7 +60,7 @@ func (oauth *OAuth2) getUsersFollowers(optionalParams map[string]interface{}) (*
 		NeedClientID: true,
 	}
 
-	responseString, responseErr := oauth.twitchRequest(twitchRequest, nil)
+	responseString, responseErr := sess.TwitchRequest(twitchRequest, nil)
 	if responseErr != nil {
 		return nil, responseErr
 	}
@@ -70,7 +70,7 @@ func (oauth *OAuth2) getUsersFollowers(optionalParams map[string]interface{}) (*
 	return &getUsersFollowsJSON, nil
 }
 
-func (oauth *OAuth2) updateUser(description string) (*GetUsersJSON, error) {
+func (sess *Session) UpdateUser(description string) (*GetUsersJSON, error) {
 	getUpdateUserParams := make(map[string]interface{})
 
 	// Required Params -> None
@@ -84,7 +84,7 @@ func (oauth *OAuth2) updateUser(description string) (*GetUsersJSON, error) {
 		NeedClientID: false,
 	}
 
-	responseString, responseErr := oauth.twitchRequest(twitchRequest, nil)
+	responseString, responseErr := sess.TwitchRequest(twitchRequest, nil)
 	if responseErr != nil {
 		return nil, responseErr
 	}
@@ -95,7 +95,7 @@ func (oauth *OAuth2) updateUser(description string) (*GetUsersJSON, error) {
 	return &getUpdateUserJSON, nil
 }
 
-func (oauth *OAuth2) getUserExtensions() (*GetUserExtensionsJSON, error) {
+func (sess *Session) GetUserExtensions() (*GetUserExtensionsJSON, error) {
 	twitchRequest := &TwitchRequest{
 		URL:          GetUserExtensionsURL,
 		HttpMethod:   "GET",
@@ -103,7 +103,7 @@ func (oauth *OAuth2) getUserExtensions() (*GetUserExtensionsJSON, error) {
 		NeedClientID: false,
 	}
 
-	responseString, responseErr := oauth.twitchRequest(twitchRequest, nil)
+	responseString, responseErr := sess.TwitchRequest(twitchRequest, nil)
 	if responseErr != nil {
 		return nil, responseErr
 	}
@@ -114,6 +114,6 @@ func (oauth *OAuth2) getUserExtensions() (*GetUserExtensionsJSON, error) {
 	return &getUserExtensionsJSON, nil
 }
 
-// func (oauth2 *OAuth2) getUserActiveExtensions() {}
+// func (sess *Session) GetUserActiveExtensions() {}
 
-// func (oauth2 *OAuth2) updateUserExtensions() {}
+// func (sess *Session) UpdateUserExtensions() {}

@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func (oauth *OAuth2) createStreamMarker(userID string, optionalParams map[string]interface{}) (*CreateStreamMarkerJSON, error) {
+func (sess *Session) CreateStreamMarker(userID string, optionalParams map[string]interface{}) (*CreateStreamMarkerJSON, error) {
 	createStreamMarkerParams := make(map[string]interface{})
 
 	// Required Params
@@ -29,7 +29,7 @@ func (oauth *OAuth2) createStreamMarker(userID string, optionalParams map[string
 		NeedClientID: false,
 	}
 
-	responseString, twitchRequestErr := oauth.twitchRequest(twitchRequestData, nil)
+	responseString, twitchRequestErr := sess.TwitchRequest(twitchRequestData, nil)
 	if twitchRequestErr != nil {
 		return nil, twitchRequestErr
 	}
@@ -40,7 +40,7 @@ func (oauth *OAuth2) createStreamMarker(userID string, optionalParams map[string
 	return &createStreamMarkerJSON, nil
 }
 
-func (oauth *OAuth2) getStreams(optionalParams map[string]interface{}) (*GetStreamsJSON, error) {
+func (sess *Session) GetStreams(optionalParams map[string]interface{}) (*GetStreamsJSON, error) {
 	getStreamsParams := make(map[string]interface{})
 
 	// Required Params -> None
@@ -62,7 +62,7 @@ func (oauth *OAuth2) getStreams(optionalParams map[string]interface{}) (*GetStre
 		NeedClientID: true,
 	}
 
-	responseString, twitchRequestErr := oauth.twitchRequest(twitchRequestData, nil)
+	responseString, twitchRequestErr := sess.TwitchRequest(twitchRequestData, nil)
 	if twitchRequestErr != nil {
 		return nil, twitchRequestErr
 	}
@@ -73,7 +73,7 @@ func (oauth *OAuth2) getStreams(optionalParams map[string]interface{}) (*GetStre
 	return &getStreamsJSON, nil
 }
 
-func (oauth *OAuth2) getStreamMarkers(userID string, videoID string, optionalParams map[string]interface{}) (*GetStreamMarkersJSON, error) {
+func (sess *Session) GetStreamMarkers(userID string, videoID string, optionalParams map[string]interface{}) (*GetStreamMarkersJSON, error) {
 	getStreamMarkersParams := make(map[string]interface{})
 
 	// Required Params
@@ -98,7 +98,7 @@ func (oauth *OAuth2) getStreamMarkers(userID string, videoID string, optionalPar
 		NeedClientID: false,
 	}
 
-	responseString, responseErr := oauth.twitchRequest(twitchRequestData, nil)
+	responseString, responseErr := sess.TwitchRequest(twitchRequestData, nil)
 	if responseErr != nil {
 		return nil, responseErr
 	}
@@ -109,7 +109,7 @@ func (oauth *OAuth2) getStreamMarkers(userID string, videoID string, optionalPar
 	return &getStreamMarkersJSON, nil
 }
 
-func (oauth *OAuth2) getStreamsMetadata(optionalParams map[string]interface{}) (*GetStreamsMetadataJSON, error) {
+func (sess *Session) GetStreamsMetadata(optionalParams map[string]interface{}) (*GetStreamsMetadataJSON, error) {
 	getStreamsMetadataParams := make(map[string]interface{})
 
 	// Required Params -> None
@@ -131,7 +131,7 @@ func (oauth *OAuth2) getStreamsMetadata(optionalParams map[string]interface{}) (
 		NeedClientID: true,
 	}
 
-	responseString, responseErr := oauth.twitchRequest(twitchRequestData, nil)
+	responseString, responseErr := sess.TwitchRequest(twitchRequestData, nil)
 	if responseErr != nil {
 		return nil, responseErr
 	}
@@ -142,7 +142,7 @@ func (oauth *OAuth2) getStreamsMetadata(optionalParams map[string]interface{}) (
 	return &getStreamsMetadataJSON, nil
 }
 
-func (oauth *OAuth2) getSubscriptions(broadcasterID string, optionalParams map[string]interface{}) (*GetSubscriptionsJSON, error) {
+func (sess *Session) GetSubscriptions(broadcasterID string, optionalParams map[string]interface{}) (*GetSubscriptionsJSON, error) {
 	getSubsParams := make(map[string]interface{})
 
 	// Required Params
@@ -166,7 +166,7 @@ func (oauth *OAuth2) getSubscriptions(broadcasterID string, optionalParams map[s
 		NeedClientID: false,
 	}
 
-	responseString, responseErr := oauth.twitchRequest(twitchRequestData, nil)
+	responseString, responseErr := sess.TwitchRequest(twitchRequestData, nil)
 	if responseErr != nil {
 		return nil, responseErr
 	}
@@ -177,7 +177,7 @@ func (oauth *OAuth2) getSubscriptions(broadcasterID string, optionalParams map[s
 	return &getSubsJSON, nil
 }
 
-func (oauth *OAuth2) getAllStreamTags(optionalParams map[string]interface{}) (*GetAllStreamTagsJSON, error) {
+func (sess *Session) GetAllStreamTags(optionalParams map[string]interface{}) (*GetAllStreamTagsJSON, error) {
 	getAllStreamTagsParams := make(map[string]interface{})
 
 	// Required Params -> None
@@ -199,7 +199,7 @@ func (oauth *OAuth2) getAllStreamTags(optionalParams map[string]interface{}) (*G
 		NeedClientID: true,
 	}
 
-	responseString, responseErr := oauth.twitchRequest(twitchRequestData, nil)
+	responseString, responseErr := sess.TwitchRequest(twitchRequestData, nil)
 	if responseErr != nil {
 		return nil, responseErr
 	}
@@ -210,7 +210,7 @@ func (oauth *OAuth2) getAllStreamTags(optionalParams map[string]interface{}) (*G
 	return &getAllStreamTagsJSON, nil
 }
 
-func (oauth *OAuth2) getStreamTags(broadcasterID interface{}) (*GetStreamTagsJSON, error) {
+func (sess *Session) GetStreamTags(broadcasterID interface{}) (*GetStreamTagsJSON, error) {
 	getStreamTagsParams := make(map[string]interface{})
 
 	// Required Params
@@ -224,7 +224,7 @@ func (oauth *OAuth2) getStreamTags(broadcasterID interface{}) (*GetStreamTagsJSO
 		NeedClientID: true,
 	}
 
-	responseString, responseErr := oauth.twitchRequest(twitchRequestData, nil)
+	responseString, responseErr := sess.TwitchRequest(twitchRequestData, nil)
 	if responseErr != nil {
 		return nil, responseErr
 	}
@@ -235,7 +235,7 @@ func (oauth *OAuth2) getStreamTags(broadcasterID interface{}) (*GetStreamTagsJSO
 	return &getStreamTagsJSON, nil
 }
 
-func (oauth *OAuth2) replaceStreamTag(broadcasterID string, tagIDs []string) (string, error) {
+func (sess *Session) ReplaceStreamTag(broadcasterID string, tagIDs []string) (string, error) {
 	getStreamTagsParams := make(map[string]interface{})
 
 	// Required Params
@@ -250,7 +250,7 @@ func (oauth *OAuth2) replaceStreamTag(broadcasterID string, tagIDs []string) (st
 
 	replaceStreamTagData := []byte(fmt.Sprintf(`{"tag_ids":"%s"`, tagIDs))
 	fmt.Printf("\n%s\n", fmt.Sprintf(`{"tag_ids":"%s"`, tagIDs))
-	responseString, responseErr := oauth.twitchRequest(twitchRequestData, replaceStreamTagData)
+	responseString, responseErr := sess.TwitchRequest(twitchRequestData, replaceStreamTagData)
 	if responseErr != nil {
 		return "", responseErr
 	}

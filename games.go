@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func (oauth *OAuth2) getTopGames(optionalParams map[string]interface{}) (*GetTopGamesJSON, error) {
+func (sess *Session) GetTopGames(optionalParams map[string]interface{}) (*GetTopGamesJSON, error) {
 
 	// Required Params -> None
 	// Optional Params
@@ -24,7 +24,7 @@ func (oauth *OAuth2) getTopGames(optionalParams map[string]interface{}) (*GetTop
 		NeedClientID: true,
 	}
 
-	responseString, twitchRequestErr := oauth.twitchRequest(twitchRequestData, nil)
+	responseString, twitchRequestErr := sess.TwitchRequest(twitchRequestData, nil)
 	if twitchRequestErr != nil {
 		return nil, twitchRequestErr
 	}
@@ -35,7 +35,7 @@ func (oauth *OAuth2) getTopGames(optionalParams map[string]interface{}) (*GetTop
 	return &getTopGamesJSON, nil
 }
 
-func (oauth *OAuth2) getGames(ID string, name string) (*GetGamesJSON, error) {
+func (sess *Session) GetGames(ID string, name string) (*GetGamesJSON, error) {
 	getGamesParams := make(map[string]interface{})
 
 	// Required Params
@@ -50,7 +50,7 @@ func (oauth *OAuth2) getGames(ID string, name string) (*GetGamesJSON, error) {
 		NeedClientID: true,
 	}
 
-	responseString, twitchRequestErr := oauth.twitchRequest(twitchRequestData, nil)
+	responseString, twitchRequestErr := sess.TwitchRequest(twitchRequestData, nil)
 	if twitchRequestErr != nil {
 		return nil, twitchRequestErr
 	}

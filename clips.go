@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 )
 
-func (oauth *OAuth2) createClip(createClipParams map[string]interface{}) (*CreateClipJSON, error) {
+func (sess *Session) CreateClip(createClipParams map[string]interface{}) (*CreateClipJSON, error) {
 	requiredCreateClipParams := []string{"broadcaster_id"}
 
 	twitchRequestData := &TwitchRequest{
@@ -14,7 +14,7 @@ func (oauth *OAuth2) createClip(createClipParams map[string]interface{}) (*Creat
 		NeedClientID: true,
 	}
 
-	responseString, responseErr := oauth.twitchRequest(twitchRequestData, nil)
+	responseString, responseErr := sess.TwitchRequest(twitchRequestData, nil)
 	if responseErr != nil {
 		return nil, responseErr
 	}
@@ -25,7 +25,7 @@ func (oauth *OAuth2) createClip(createClipParams map[string]interface{}) (*Creat
 	return createClipJSON, nil
 }
 
-func (oauth *OAuth2) getClip(getClipParams map[string]interface{}) (*GetClipJSON, error) {
+func (sess *Session) GetClip(getClipParams map[string]interface{}) (*GetClipJSON, error) {
 	requiredGetClipParams := []string{"broadcaster_id", "game_id", "id"}
 
 	twitchRequestData := &TwitchRequest{
@@ -35,7 +35,7 @@ func (oauth *OAuth2) getClip(getClipParams map[string]interface{}) (*GetClipJSON
 		NeedClientID: true,
 	}
 
-	responseString, responseErr := oauth.twitchRequest(twitchRequestData, nil)
+	responseString, responseErr := sess.TwitchRequest(twitchRequestData, nil)
 	if responseErr != nil {
 		return nil, responseErr
 	}

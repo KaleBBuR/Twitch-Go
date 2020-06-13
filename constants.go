@@ -251,10 +251,10 @@ type GetSubscriptionsJSON struct {
 
 type GetAllStreamTagsJSON struct {
 	Data []struct {
-		TagID                    string            `json:"tag_id"`
-		IsAuto                   bool              `json:"is_auto"`
-		LocalizationNames        map[string]string `json:"localization_names"`
-		LocalizationDescriptions map[string]string `json:"localization_descriptions"`
+		TagID                    string                 `json:"tag_id"`
+		IsAuto                   bool                   `json:"is_auto"`
+		LocalizationNames        map[string]interface{} `json:"localization_names"`
+		LocalizationDescriptions map[string]interface{} `json:"localization_descriptions"`
 	} `json:"data"`
 	Pagination struct {
 		Cursor string `json:"cursor"`
@@ -263,10 +263,10 @@ type GetAllStreamTagsJSON struct {
 
 type GetStreamTagsJSON struct {
 	Data []struct {
-		TagID                    string            `json:"tag_id"`
-		IsAuto                   bool              `json:"is_auto"`
-		LocalizationNames        map[string]string `json:"localization_names"`
-		LocalizationDescriptions map[string]string `json:"localization_descriptions"`
+		TagID                    string                 `json:"tag_id"`
+		IsAuto                   bool                   `json:"is_auto"`
+		LocalizationNames        map[string]interface{} `json:"localization_names"`
+		LocalizationDescriptions map[string]interface{} `json:"localization_descriptions"`
 	} `json:"data"`
 	Pagination struct {
 		Cursor string `json:"cursor"`
@@ -334,17 +334,16 @@ type GetVideosJSON struct {
 	} `json:"pagination"`
 }
 
-type GetUserActiveExtensions struct {
-}
+// type GetUserActiveExtensions struct {
+// }
 
-type OAuth2 struct {
+type Session struct {
 	clientID     string
 	clientSecret string
 	scope        string
 	accessToken  string
 	expireTime   float64
 	scopes       []string
-	tokenType    string
 }
 
 type TwitchRequest struct {

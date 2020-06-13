@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	twitchgo "github.com/KaleBBuR/Twitch-Go"
+	gt "github.com/KaleBBuR/Twitch-Go"
 )
 
 type Private struct {
@@ -15,18 +15,15 @@ type Private struct {
 }
 
 func main() {
-	private := Private{}
+	private := &Private{}
 	raw, err := ioutil.ReadFile("private.json")
 	if err != nil {
 		return
 	}
 
-	json.Unmarshal(raw, &private)
+	json.Unmarshal(raw, private)
 
-	clientID := private.ClientID
-	clientSecret := private.ClientSecret
-	scope := private.Scope
-	oauth, err := twitchgo.OAuthLoginSession(clientID, clientSecret, scope)
+	session, err := gt.OAuthLoginSession(private.ClientID, private.ClientSecret, private.Scope)
 	if err != nil {
 		fmt.Printf(err.Error())
 		return
@@ -35,7 +32,7 @@ func main() {
 	getStreamsMap := make(map[string]interface{})
 	getStreamsMap["first"] = 100
 
-	twitchgorequest, err := oauth.getStreams(getStreamsMap)
+	twitchgorequest, err := session.GetStreams(getStreamsMap)
 	if err != nil {
 		fmt.Println(err.Error())
 		return
