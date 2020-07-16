@@ -22,20 +22,13 @@ func (sess *Session) CreateStreamMarker(userID string, optionalParams map[string
 		createStreamMarkerParams[key] = value
 	}
 
-	twitchRequestData := &TwitchRequest{
-		URL:          addParams(createStreamMarkerParams, CreateStreamMarkerURL, []string{"user_id"}),
-		HttpMethod:   "POST",
-		NeedOAuth2:   true,
-		NeedClientID: false,
-	}
-
-	responseString, twitchRequestErr := sess.TwitchRequest(twitchRequestData, nil)
-	if twitchRequestErr != nil {
-		return nil, twitchRequestErr
+	data, dataErr := sess.GetResponse(addParams(createStreamMarkerParams, CreateStreamMarkerURL, []string{"user_id"}), "POST", true, false, nil)
+	if dataErr != nil {
+		PanicErr(dataErr)
 	}
 
 	var createStreamMarkerJSON CreateStreamMarkerJSON
-	json.Unmarshal([]byte(responseString), &createStreamMarkerJSON)
+	json.Unmarshal(data, &createStreamMarkerJSON)
 
 	return &createStreamMarkerJSON, nil
 }
@@ -55,20 +48,13 @@ func (sess *Session) GetStreams(optionalParams map[string]interface{}) (*GetStre
 		getStreamsParams[key] = value
 	}
 
-	twitchRequestData := &TwitchRequest{
-		URL:          addParams(getStreamsParams, GetStreamsURL, []string{}),
-		HttpMethod:   "GET",
-		NeedOAuth2:   true,
-		NeedClientID: true,
-	}
-
-	responseString, twitchRequestErr := sess.TwitchRequest(twitchRequestData, nil)
-	if twitchRequestErr != nil {
-		return nil, twitchRequestErr
+	data, dataErr := sess.GetResponse(addParams(getStreamsParams, GetStreamsURL, []string{}), "GET", true, true, nil)
+	if dataErr != nil {
+		PanicErr(dataErr)
 	}
 
 	var getStreamsJSON GetStreamsJSON
-	json.Unmarshal([]byte(responseString), &getStreamsJSON)
+	json.Unmarshal(data, &getStreamsJSON)
 
 	return &getStreamsJSON, nil
 }
@@ -91,20 +77,13 @@ func (sess *Session) GetStreamMarkers(userID string, videoID string, optionalPar
 		getStreamMarkersParams[key] = value
 	}
 
-	twitchRequestData := &TwitchRequest{
-		URL:          addParams(getStreamMarkersParams, GetStreamMarkersURL, []string{"user_id", "video_id"}),
-		HttpMethod:   "GET",
-		NeedOAuth2:   true,
-		NeedClientID: false,
-	}
-
-	responseString, responseErr := sess.TwitchRequest(twitchRequestData, nil)
-	if responseErr != nil {
-		return nil, responseErr
+	data, dataErr := sess.GetResponse(addParams(getStreamMarkersParams, GetStreamMarkersURL, []string{"user_id", "video_id"}), "GET", true, false, nil)
+	if dataErr != nil {
+		PanicErr(dataErr)
 	}
 
 	var getStreamMarkersJSON GetStreamMarkersJSON
-	json.Unmarshal([]byte(responseString), &getStreamMarkersJSON)
+	json.Unmarshal(data, &getStreamMarkersJSON)
 
 	return &getStreamMarkersJSON, nil
 }
@@ -124,20 +103,13 @@ func (sess *Session) GetStreamsMetadata(optionalParams map[string]interface{}) (
 		getStreamsMetadataParams[key] = value
 	}
 
-	twitchRequestData := &TwitchRequest{
-		URL:          addParams(getStreamsMetadataParams, GetStreamsMetadataURL, []string{}),
-		HttpMethod:   "GET",
-		NeedOAuth2:   false,
-		NeedClientID: true,
-	}
-
-	responseString, responseErr := sess.TwitchRequest(twitchRequestData, nil)
-	if responseErr != nil {
-		return nil, responseErr
+	data, dataErr := sess.GetResponse(addParams(getStreamsMetadataParams, GetStreamsMetadataURL, []string{}), "GET", false, true, nil)
+	if dataErr != nil {
+		PanicErr(dataErr)
 	}
 
 	var getStreamsMetadataJSON GetStreamsMetadataJSON
-	json.Unmarshal([]byte(responseString), &getStreamsMetadataJSON)
+	json.Unmarshal(data, &getStreamsMetadataJSON)
 
 	return &getStreamsMetadataJSON, nil
 }
@@ -159,20 +131,13 @@ func (sess *Session) GetSubscriptions(broadcasterID string, optionalParams map[s
 		getSubsParams[key] = value
 	}
 
-	twitchRequestData := &TwitchRequest{
-		URL:          addParams(getSubsParams, GetSubsURL, []string{"broadcaster_id"}),
-		HttpMethod:   "GET",
-		NeedOAuth2:   true,
-		NeedClientID: false,
-	}
-
-	responseString, responseErr := sess.TwitchRequest(twitchRequestData, nil)
-	if responseErr != nil {
-		return nil, responseErr
+	data, dataErr := sess.GetResponse(addParams(getSubsParams, GetSubsURL, []string{"broadcaster_id"}), "GET", true, false, nil)
+	if dataErr != nil {
+		PanicErr(dataErr)
 	}
 
 	var getSubsJSON GetSubscriptionsJSON
-	json.Unmarshal([]byte(responseString), &getSubsJSON)
+	json.Unmarshal(data, &getSubsJSON)
 
 	return &getSubsJSON, nil
 }
@@ -192,20 +157,13 @@ func (sess *Session) GetAllStreamTags(optionalParams map[string]interface{}) (*G
 		getAllStreamTagsParams[key] = value
 	}
 
-	twitchRequestData := &TwitchRequest{
-		URL:          addParams(getAllStreamTagsParams, GetAllStreamTagsURL, []string{}),
-		HttpMethod:   "GET",
-		NeedOAuth2:   false,
-		NeedClientID: true,
-	}
-
-	responseString, responseErr := sess.TwitchRequest(twitchRequestData, nil)
-	if responseErr != nil {
-		return nil, responseErr
+	data, dataErr := sess.GetResponse(addParams(getAllStreamTagsParams, GetAllStreamTagsURL, []string{}), "GET", false, true, nil)
+	if dataErr != nil {
+		PanicErr(dataErr)
 	}
 
 	var getAllStreamTagsJSON GetAllStreamTagsJSON
-	json.Unmarshal([]byte(responseString), &getAllStreamTagsJSON)
+	json.Unmarshal(data, &getAllStreamTagsJSON)
 
 	return &getAllStreamTagsJSON, nil
 }
@@ -217,20 +175,13 @@ func (sess *Session) GetStreamTags(broadcasterID interface{}) (*GetStreamTagsJSO
 	getStreamTagsParams["broadcaster_id"] = broadcasterID
 	// Optional Params -> None
 
-	twitchRequestData := &TwitchRequest{
-		URL:          addParams(getStreamTagsParams, GetStreamTagsURL, []string{}),
-		HttpMethod:   "GET",
-		NeedOAuth2:   false,
-		NeedClientID: true,
-	}
-
-	responseString, responseErr := sess.TwitchRequest(twitchRequestData, nil)
-	if responseErr != nil {
-		return nil, responseErr
+	data, dataErr := sess.GetResponse(addParams(getStreamTagsParams, GetStreamTagsURL, []string{}), "GET", false, true, nil)
+	if dataErr != nil {
+		PanicErr(dataErr)
 	}
 
 	var getStreamTagsJSON GetStreamTagsJSON
-	json.Unmarshal([]byte(responseString), &getStreamTagsJSON)
+	json.Unmarshal(data, &getStreamTagsJSON)
 
 	return &getStreamTagsJSON, nil
 }
@@ -241,19 +192,10 @@ func (sess *Session) ReplaceStreamTag(broadcasterID string, tagIDs []string) (st
 	// Required Params
 	getStreamTagsParams["broadcaster_id"] = broadcasterID
 
-	twitchRequestData := &TwitchRequest{
-		URL:          addParams(getStreamTagsParams, GetStreamTagsURL, []string{}),
-		HttpMethod:   "GET",
-		NeedOAuth2:   false,
-		NeedClientID: true,
+	data, dataErr := sess.GetResponse(addParams(getStreamTagsParams, GetStreamTagsURL, []string{}), "GET", false, true, []byte(fmt.Sprintf(`{"tag_ids":"%s"`, tagIDs)))
+	if dataErr != nil {
+		PanicErr(dataErr)
 	}
 
-	replaceStreamTagData := []byte(fmt.Sprintf(`{"tag_ids":"%s"`, tagIDs))
-	fmt.Printf("\n%s\n", fmt.Sprintf(`{"tag_ids":"%s"`, tagIDs))
-	responseString, responseErr := sess.TwitchRequest(twitchRequestData, replaceStreamTagData)
-	if responseErr != nil {
-		return "", responseErr
-	}
-
-	return responseString, nil
+	return string(data), nil
 }

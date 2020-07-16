@@ -20,20 +20,13 @@ func (sess *Session) GetUsers(optionalParams map[string]interface{}) (*GetUsersJ
 		getUsersParams[key] = value
 	}
 
-	twitchRequest := &TwitchRequest{
-		URL:          addParams(getUsersParams, GetUsersURL, []string{}),
-		HttpMethod:   "GET",
-		NeedOAuth2:   true,
-		NeedClientID: false,
-	}
-
-	responseString, responseErr := sess.TwitchRequest(twitchRequest, nil)
-	if responseErr != nil {
-		return nil, responseErr
+	data, dataErr := sess.GetResponse(addParams(getUsersParams, GetUsersURL, []string{}), "GET", true, false, nil)
+	if dataErr != nil {
+		PanicErr(dataErr)
 	}
 
 	var getUsersJSON GetUsersJSON
-	json.Unmarshal([]byte(responseString), &getUsersJSON)
+	json.Unmarshal(data, &getUsersJSON)
 
 	return &getUsersJSON, nil
 }
@@ -53,20 +46,13 @@ func (sess *Session) GetUsersFollowers(optionalParams map[string]interface{}) (*
 		getUsersFollowsParams[key] = value
 	}
 
-	twitchRequest := &TwitchRequest{
-		URL:          addParams(getUsersFollowsParams, GetUsersFollowsURL, []string{}),
-		HttpMethod:   "GET",
-		NeedOAuth2:   false,
-		NeedClientID: true,
-	}
-
-	responseString, responseErr := sess.TwitchRequest(twitchRequest, nil)
-	if responseErr != nil {
-		return nil, responseErr
+	data, dataErr := sess.GetResponse(addParams(getUsersFollowsParams, GetUsersFollowsURL, []string{}), "GET", false, true, nil)
+	if dataErr != nil {
+		PanicErr(dataErr)
 	}
 
 	var getUsersFollowsJSON GetUsersFollowsJSON
-	json.Unmarshal([]byte(responseString), &getUsersFollowsJSON)
+	json.Unmarshal(data, &getUsersFollowsJSON)
 	return &getUsersFollowsJSON, nil
 }
 
@@ -77,39 +63,25 @@ func (sess *Session) UpdateUser(description string) (*GetUsersJSON, error) {
 	// Optional Params
 	getUpdateUserParams["description"] = description
 
-	twitchRequest := &TwitchRequest{
-		URL:          addParams(getUpdateUserParams, GetUsersURL, []string{}),
-		HttpMethod:   "PUT",
-		NeedOAuth2:   true,
-		NeedClientID: false,
-	}
-
-	responseString, responseErr := sess.TwitchRequest(twitchRequest, nil)
-	if responseErr != nil {
-		return nil, responseErr
+	data, dataErr := sess.GetResponse(addParams(getUpdateUserParams, GetUsersURL, []string{}), "PUT", true, false, nil)
+	if dataErr != nil {
+		PanicErr(dataErr)
 	}
 
 	var getUpdateUserJSON GetUsersJSON
-	json.Unmarshal([]byte(responseString), &getUpdateUserJSON)
+	json.Unmarshal(data, &getUpdateUserJSON)
 
 	return &getUpdateUserJSON, nil
 }
 
 func (sess *Session) GetUserExtensions() (*GetUserExtensionsJSON, error) {
-	twitchRequest := &TwitchRequest{
-		URL:          GetUserExtensionsURL,
-		HttpMethod:   "GET",
-		NeedOAuth2:   true,
-		NeedClientID: false,
-	}
-
-	responseString, responseErr := sess.TwitchRequest(twitchRequest, nil)
-	if responseErr != nil {
-		return nil, responseErr
+	data, dataErr := sess.GetResponse(GetUserExtensionsURL, "GET", true, false, nil)
+	if dataErr != nil {
+		PanicErr(dataErr)
 	}
 
 	var getUserExtensionsJSON GetUserExtensionsJSON
-	json.Unmarshal([]byte(responseString), &getUserExtensionsJSON)
+	json.Unmarshal(data, &getUserExtensionsJSON)
 
 	return &getUserExtensionsJSON, nil
 }

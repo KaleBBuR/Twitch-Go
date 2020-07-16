@@ -12,25 +12,18 @@ func (sess *Session) CheckAutoModStatus(broadcasterID string, body []AutoModStat
 	postCheckAutoModStatusParams["broadcaster_id"] = broadcasterID
 	// Optional Params -> None
 
-	twitchRequestData := &TwitchRequest{
-		URL:          addParams(postCheckAutoModStatusParams, CheckAutoModStatusURL, []string{"broadcaster_id"}),
-		HttpMethod:   "POST",
-		NeedOAuth2:   false,
-		NeedClientID: false,
-	}
-
 	autoModStatusBody, jsonErr := json.Marshal(AutoModStatusFullBody{Data: body})
 	if jsonErr != nil {
 		return nil, jsonErr
 	}
 
-	responseString, responseErr := sess.TwitchRequest(twitchRequestData, autoModStatusBody)
-	if responseErr != nil {
-		return nil, responseErr
+	data, dataErr := sess.GetResponse(addParams(postCheckAutoModStatusParams, CheckAutoModStatusURL, []string{"broadcaster_id"}), "POST", false, false, autoModStatusBody)
+	if dataErr != nil {
+		PanicErr(dataErr)
 	}
 
 	var postAutoModStatusJSON PostAutoModStatusJSON
-	json.Unmarshal([]byte(responseString), &postAutoModStatusJSON)
+	json.Unmarshal(data, &postAutoModStatusJSON)
 
 	return &postAutoModStatusJSON, nil
 }
@@ -52,20 +45,13 @@ func (sess *Session) GetBannedEvents(broadcasterID string, optionalParams map[st
 		getBannedEventsParams[key] = value
 	}
 
-	twitchRequestData := &TwitchRequest{
-		URL:          addParams(getBannedEventsParams, GetBannedEventsURL, []string{"broadcaster_id"}),
-		HttpMethod:   "GET",
-		NeedOAuth2:   true,
-		NeedClientID: false,
-	}
-
-	responseString, responseErr := sess.TwitchRequest(twitchRequestData, nil)
-	if responseErr != nil {
-		return nil, responseErr
+	data, dataErr := sess.GetResponse(addParams(getBannedEventsParams, GetBannedEventsURL, []string{"broadcaster_id"}), "GET", true, false, nil)
+	if dataErr != nil {
+		PanicErr(dataErr)
 	}
 
 	var getBannedEventsJSON GetBannedEventsJSON
-	json.Unmarshal([]byte(responseString), &getBannedEventsJSON)
+	json.Unmarshal(data, &getBannedEventsJSON)
 
 	return &getBannedEventsJSON, nil
 }
@@ -87,20 +73,13 @@ func (sess *Session) GetBannedUsers(broadcasterID string, optionalParams map[str
 		getBannedUsersParams[key] = value
 	}
 
-	twitchRequestData := &TwitchRequest{
-		URL:          addParams(getBannedUsersParams, GetBannedUsersURL, []string{"broadcaster_id"}),
-		HttpMethod:   "GET",
-		NeedOAuth2:   true,
-		NeedClientID: false,
-	}
-
-	responseString, responseErr := sess.TwitchRequest(twitchRequestData, nil)
-	if responseErr != nil {
-		return nil, responseErr
+	data, dataErr := sess.GetResponse(addParams(getBannedUsersParams, GetBannedUsersURL, []string{"broadcaster_id"}), "GET", true, false, nil)
+	if dataErr != nil {
+		PanicErr(dataErr)
 	}
 
 	var getBannedUsersJSON GetBannedUsersJSON
-	json.Unmarshal([]byte(responseString), &getBannedUsersJSON)
+	json.Unmarshal(data, &getBannedUsersJSON)
 
 	return &getBannedUsersJSON, nil
 }
@@ -122,20 +101,13 @@ func (sess *Session) GetMods(broadcasterID string, optionalParams map[string]int
 		getModsParams[key] = value
 	}
 
-	twitchRequestData := &TwitchRequest{
-		URL:          addParams(getModsParams, GetModsURL, []string{"broadcaster_id"}),
-		HttpMethod:   "GET",
-		NeedOAuth2:   true,
-		NeedClientID: false,
-	}
-
-	responseString, responseErr := sess.TwitchRequest(twitchRequestData, nil)
-	if responseErr != nil {
-		return nil, responseErr
+	data, dataErr := sess.GetResponse(addParams(getModsParams, GetModsURL, []string{"broadcaster_id"}), "GET", true, false, nil)
+	if dataErr != nil {
+		PanicErr(dataErr)
 	}
 
 	var getModsJSON GetModsJSON
-	json.Unmarshal([]byte(responseString), &getModsJSON)
+	json.Unmarshal(data, &getModsJSON)
 
 	return &getModsJSON, nil
 }
@@ -157,20 +129,13 @@ func (sess *Session) GetModEvents(broadcasterID string, optionalParams map[strin
 		getModEventsParams[key] = value
 	}
 
-	twitchRequestData := &TwitchRequest{
-		URL:          addParams(getModEventsParams, GetModEventsURL, []string{"broadcaster_id"}),
-		HttpMethod:   "GET",
-		NeedOAuth2:   true,
-		NeedClientID: false,
-	}
-
-	responseString, responseErr := sess.TwitchRequest(twitchRequestData, nil)
-	if responseErr != nil {
-		return nil, responseErr
+	data, dataErr := sess.GetResponse(addParams(getModEventsParams, GetModEventsURL, []string{"broadcaster_id"}), "GET", true, false, nil)
+	if dataErr != nil {
+		PanicErr(dataErr)
 	}
 
 	var getModEventsJSON GetModEventsJSON
-	json.Unmarshal([]byte(responseString), &getModEventsJSON)
+	json.Unmarshal(data, &getModEventsJSON)
 
 	return &getModEventsJSON, nil
 }

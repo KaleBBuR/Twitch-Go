@@ -11,26 +11,19 @@ func (sess *Session) GetTopGames(optionalParams map[string]interface{}) (*GetTop
 	// Optional Params
 	optionalParamNames := []string{"after", "before", "first"}
 
-	for key, _ := range optionalParams {
+	for key := range optionalParams {
 		if !Contains(optionalParamNames, key) {
 			panic(fmt.Sprintf("Unusable parameter -> %s", key))
 		}
 	}
 
-	twitchRequestData := &TwitchRequest{
-		URL:          addParams(optionalParams, GetTopGamesURL, []string{}),
-		HttpMethod:   "GET",
-		NeedOAuth2:   false,
-		NeedClientID: true,
-	}
-
-	responseString, twitchRequestErr := sess.TwitchRequest(twitchRequestData, nil)
-	if twitchRequestErr != nil {
-		return nil, twitchRequestErr
+	data, dataErr := sess.GetResponse(addParams(optionalParams, GetTopGamesURL, []string{}), "GET", false, true, nil)
+	if dataErr != nil {
+		PanicErr(dataErr)
 	}
 
 	var getTopGamesJSON GetTopGamesJSON
-	json.Unmarshal([]byte(responseString), &getTopGamesJSON)
+	json.Unmarshal(data, &getTopGamesJSON)
 
 	return &getTopGamesJSON, nil
 }
@@ -43,20 +36,13 @@ func (sess *Session) GetGames(ID string, name string) (*GetGamesJSON, error) {
 	getGamesParams["name"] = name
 	// Optional Params -> None
 
-	twitchRequestData := &TwitchRequest{
-		URL:          addParams(getGamesParams, GetGamesURL, []string{"id", "name"}),
-		HttpMethod:   "GET",
-		NeedOAuth2:   false,
-		NeedClientID: true,
-	}
-
-	responseString, twitchRequestErr := sess.TwitchRequest(twitchRequestData, nil)
-	if twitchRequestErr != nil {
-		return nil, twitchRequestErr
+	data, dataErr := sess.GetResponse(addParams(getGamesParams, GetGamesURL, []string{"id", "name"}), "GET", false, true, nil)
+	if dataErr != nil {
+		PanicErr(dataErr)
 	}
 
 	var getGamesJSON GetGamesJSON
-	json.Unmarshal([]byte(responseString), &getGamesJSON)
+	json.Unmarshal(data, &getGamesJSON)
 
 	return &getGamesJSON, nil
 }

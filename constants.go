@@ -395,3 +395,23 @@ func Contains(a []string, key string) bool {
 
 	return false
 }
+
+func (sess *Session) GetResponse(URL string, method string, oauth bool, id bool, body []byte) ([]byte, error) {
+	twitchRequestData := &TwitchRequest{
+		URL:          URL,
+		HttpMethod:   method,
+		NeedOAuth2:   oauth,
+		NeedClientID: id,
+	}
+
+	responseString, responseErr := sess.TwitchRequest(twitchRequestData, body)
+	if responseErr != nil {
+		return nil, responseErr
+	}
+
+	return []byte(responseString), nil
+}
+
+func PanicErr(err error) {
+	panic(fmt.Sprintf("ERROR: %s", err.Error()))
+}

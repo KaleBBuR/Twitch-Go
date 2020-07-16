@@ -24,20 +24,13 @@ func (sess *Session) GetVideos(ID string, userID string, gameID string, optional
 		getVideosParams[key] = value
 	}
 
-	twitchRequest := &TwitchRequest{
-		URL:          addParams(getVideosParams, GetVideosURL, []string{"id", "user_id", "game_id"}),
-		HttpMethod:   "GET",
-		NeedOAuth2:   false,
-		NeedClientID: true,
-	}
-
-	responseString, responseErr := sess.TwitchRequest(twitchRequest, nil)
-	if responseErr != nil {
-		return nil, responseErr
+	data, dataErr := sess.GetResponse(addParams(getVideosParams, GetVideosURL, []string{"id", "user_id", "game_id"}), "GET", false, true, nil)
+	if dataErr != nil {
+		PanicErr(dataErr)
 	}
 
 	var getVideosJSON GetVideosJSON
-	json.Unmarshal([]byte(responseString), &getVideosJSON)
+	json.Unmarshal(data, &getVideosJSON)
 
 	return &getVideosJSON, nil
 }
