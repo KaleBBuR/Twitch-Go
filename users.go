@@ -20,7 +20,7 @@ func (sess *Session) GetUsers(optionalParams map[string]interface{}) (*GetUsersJ
 		getUsersParams[key] = value
 	}
 
-	data, dataErr := sess.GetResponse(addParams(getUsersParams, GetUsersURL, []string{}), "GET", true, false, nil)
+	data, dataErr := sess.GetResponse(addParams(getUsersParams, GetUsersURL, []string{}), "GET", true, true, nil)
 	if dataErr != nil {
 		PanicErr(dataErr)
 	}
