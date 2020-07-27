@@ -19,7 +19,7 @@ func (sess *Session) CheckAutoModStatus(broadcasterID string, body []AutoModStat
 
 	data, dataErr := sess.GetResponse(addParams(postCheckAutoModStatusParams, CheckAutoModStatusURL, []string{"broadcaster_id"}), "POST", false, false, autoModStatusBody)
 	if dataErr != nil {
-		PanicErr(dataErr)
+		return nil, dataErr
 	}
 
 	var postAutoModStatusJSON PostAutoModStatusJSON
@@ -47,7 +47,7 @@ func (sess *Session) GetBannedEvents(broadcasterID string, optionalParams map[st
 
 	data, dataErr := sess.GetResponse(addParams(getBannedEventsParams, GetBannedEventsURL, []string{"broadcaster_id"}), "GET", true, false, nil)
 	if dataErr != nil {
-		PanicErr(dataErr)
+		return nil, dataErr
 	}
 
 	var getBannedEventsJSON GetBannedEventsJSON
@@ -75,7 +75,7 @@ func (sess *Session) GetBannedUsers(broadcasterID string, optionalParams map[str
 
 	data, dataErr := sess.GetResponse(addParams(getBannedUsersParams, GetBannedUsersURL, []string{"broadcaster_id"}), "GET", true, false, nil)
 	if dataErr != nil {
-		PanicErr(dataErr)
+		return nil, dataErr
 	}
 
 	var getBannedUsersJSON GetBannedUsersJSON
@@ -103,7 +103,7 @@ func (sess *Session) GetMods(broadcasterID string, optionalParams map[string]int
 
 	data, dataErr := sess.GetResponse(addParams(getModsParams, GetModsURL, []string{"broadcaster_id"}), "GET", true, false, nil)
 	if dataErr != nil {
-		PanicErr(dataErr)
+		return nil, dataErr
 	}
 
 	var getModsJSON GetModsJSON
@@ -131,7 +131,7 @@ func (sess *Session) GetModEvents(broadcasterID string, optionalParams map[strin
 
 	data, dataErr := sess.GetResponse(addParams(getModEventsParams, GetModEventsURL, []string{"broadcaster_id"}), "GET", true, false, nil)
 	if dataErr != nil {
-		PanicErr(dataErr)
+		return nil, dataErr
 	}
 
 	var getModEventsJSON GetModEventsJSON

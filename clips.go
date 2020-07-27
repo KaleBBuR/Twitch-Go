@@ -9,7 +9,7 @@ func (sess *Session) CreateClip(createClipParams map[string]interface{}) (*Creat
 
 	data, dataErr := sess.GetResponse(addParams(createClipParams, CreateGetClipURL, requiredCreateClipParams), "POST", true, true, nil)
 	if dataErr != nil {
-		PanicErr(dataErr)
+		return nil, dataErr
 	}
 
 	createClipJSON := &CreateClipJSON{}
@@ -23,7 +23,7 @@ func (sess *Session) GetClip(getClipParams map[string]interface{}) (*GetClipJSON
 
 	data, dataErr := sess.GetResponse(addParams(getClipParams, CreateGetClipURL, requiredGetClipParams), "GET", true, true, nil)
 	if dataErr != nil {
-		PanicErr(dataErr)
+		return nil, dataErr
 	}
 
 	getClipJSON := &GetClipJSON{}

@@ -411,7 +411,3 @@ func (sess *Session) GetResponse(URL string, method string, oauth bool, id bool,
 
 	return []byte(responseString), nil
 }
-
-func PanicErr(err error) {
-	panic(fmt.Sprintf("ERROR: %s", err.Error()))
-}

@@ -19,7 +19,7 @@ func (sess *Session) GetTopGames(optionalParams map[string]interface{}) (*GetTop
 
 	data, dataErr := sess.GetResponse(addParams(optionalParams, GetTopGamesURL, []string{}), "GET", false, true, nil)
 	if dataErr != nil {
-		PanicErr(dataErr)
+		return nil, dataErr
 	}
 
 	var getTopGamesJSON GetTopGamesJSON
@@ -38,7 +38,7 @@ func (sess *Session) GetGames(ID string, name string) (*GetGamesJSON, error) {
 
 	data, dataErr := sess.GetResponse(addParams(getGamesParams, GetGamesURL, []string{"id", "name"}), "GET", false, true, nil)
 	if dataErr != nil {
-		PanicErr(dataErr)
+		return nil, dataErr
 	}
 
 	var getGamesJSON GetGamesJSON

@@ -24,7 +24,7 @@ func (sess *Session) CreateStreamMarker(userID string, optionalParams map[string
 
 	data, dataErr := sess.GetResponse(addParams(createStreamMarkerParams, CreateStreamMarkerURL, []string{"user_id"}), "POST", true, false, nil)
 	if dataErr != nil {
-		PanicErr(dataErr)
+		return nil, dataErr
 	}
 
 	var createStreamMarkerJSON CreateStreamMarkerJSON
@@ -50,7 +50,7 @@ func (sess *Session) GetStreams(optionalParams map[string]interface{}) (*GetStre
 
 	data, dataErr := sess.GetResponse(addParams(getStreamsParams, GetStreamsURL, []string{}), "GET", true, true, nil)
 	if dataErr != nil {
-		PanicErr(dataErr)
+		return nil, dataErr
 	}
 
 	var getStreamsJSON GetStreamsJSON
@@ -79,7 +79,7 @@ func (sess *Session) GetStreamMarkers(userID string, videoID string, optionalPar
 
 	data, dataErr := sess.GetResponse(addParams(getStreamMarkersParams, GetStreamMarkersURL, []string{"user_id", "video_id"}), "GET", true, false, nil)
 	if dataErr != nil {
-		PanicErr(dataErr)
+		return nil, dataErr
 	}
 
 	var getStreamMarkersJSON GetStreamMarkersJSON
@@ -105,7 +105,7 @@ func (sess *Session) GetStreamsMetadata(optionalParams map[string]interface{}) (
 
 	data, dataErr := sess.GetResponse(addParams(getStreamsMetadataParams, GetStreamsMetadataURL, []string{}), "GET", false, true, nil)
 	if dataErr != nil {
-		PanicErr(dataErr)
+		return nil, dataErr
 	}
 
 	var getStreamsMetadataJSON GetStreamsMetadataJSON
@@ -133,7 +133,7 @@ func (sess *Session) GetSubscriptions(broadcasterID string, optionalParams map[s
 
 	data, dataErr := sess.GetResponse(addParams(getSubsParams, GetSubsURL, []string{"broadcaster_id"}), "GET", true, false, nil)
 	if dataErr != nil {
-		PanicErr(dataErr)
+		return nil, dataErr
 	}
 
 	var getSubsJSON GetSubscriptionsJSON
@@ -159,7 +159,7 @@ func (sess *Session) GetAllStreamTags(optionalParams map[string]interface{}) (*G
 
 	data, dataErr := sess.GetResponse(addParams(getAllStreamTagsParams, GetAllStreamTagsURL, []string{}), "GET", false, true, nil)
 	if dataErr != nil {
-		PanicErr(dataErr)
+		return nil, dataErr
 	}
 
 	var getAllStreamTagsJSON GetAllStreamTagsJSON
@@ -177,7 +177,7 @@ func (sess *Session) GetStreamTags(broadcasterID interface{}) (*GetStreamTagsJSO
 
 	data, dataErr := sess.GetResponse(addParams(getStreamTagsParams, GetStreamTagsURL, []string{}), "GET", false, true, nil)
 	if dataErr != nil {
-		PanicErr(dataErr)
+		return nil, dataErr
 	}
 
 	var getStreamTagsJSON GetStreamTagsJSON
@@ -194,7 +194,7 @@ func (sess *Session) ReplaceStreamTag(broadcasterID string, tagIDs []string) (st
 
 	data, dataErr := sess.GetResponse(addParams(getStreamTagsParams, GetStreamTagsURL, []string{}), "GET", false, true, []byte(fmt.Sprintf(`{"tag_ids":"%s"`, tagIDs)))
 	if dataErr != nil {
-		PanicErr(dataErr)
+		return "", dataErr
 	}
 
 	return string(data), nil

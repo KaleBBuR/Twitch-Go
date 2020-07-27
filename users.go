@@ -22,7 +22,7 @@ func (sess *Session) GetUsers(optionalParams map[string]interface{}) (*GetUsersJ
 
 	data, dataErr := sess.GetResponse(addParams(getUsersParams, GetUsersURL, []string{}), "GET", true, true, nil)
 	if dataErr != nil {
-		PanicErr(dataErr)
+		return nil, dataErr
 	}
 
 	var getUsersJSON GetUsersJSON
@@ -48,7 +48,7 @@ func (sess *Session) GetUsersFollowers(optionalParams map[string]interface{}) (*
 
 	data, dataErr := sess.GetResponse(addParams(getUsersFollowsParams, GetUsersFollowsURL, []string{}), "GET", false, true, nil)
 	if dataErr != nil {
-		PanicErr(dataErr)
+		return nil, dataErr
 	}
 
 	var getUsersFollowsJSON GetUsersFollowsJSON
@@ -65,7 +65,7 @@ func (sess *Session) UpdateUser(description string) (*GetUsersJSON, error) {
 
 	data, dataErr := sess.GetResponse(addParams(getUpdateUserParams, GetUsersURL, []string{}), "PUT", true, false, nil)
 	if dataErr != nil {
-		PanicErr(dataErr)
+		return nil, dataErr
 	}
 
 	var getUpdateUserJSON GetUsersJSON
@@ -77,7 +77,7 @@ func (sess *Session) UpdateUser(description string) (*GetUsersJSON, error) {
 func (sess *Session) GetUserExtensions() (*GetUserExtensionsJSON, error) {
 	data, dataErr := sess.GetResponse(GetUserExtensionsURL, "GET", true, false, nil)
 	if dataErr != nil {
-		PanicErr(dataErr)
+		return nil, dataErr
 	}
 
 	var getUserExtensionsJSON GetUserExtensionsJSON
