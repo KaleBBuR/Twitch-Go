@@ -1,6 +1,7 @@
 package twitchgo
 
 import (
+	"encoding/json"
 	"fmt"
 	"strings"
 )
@@ -396,7 +397,7 @@ func Contains(a []string, key string) bool {
 	return false
 }
 
-func (sess *Session) GetResponse(URL string, method string, oauth bool, id bool, body []byte) ([]byte, error) {
+func (sess *Session) GetResponse(URL string, method string, oauth bool, id bool, body []byte, a interface{}) error {
 	twitchRequestData := &TwitchRequest{
 		URL:          URL,
 		HttpMethod:   method,
@@ -406,8 +407,12 @@ func (sess *Session) GetResponse(URL string, method string, oauth bool, id bool,
 
 	responseString, responseErr := sess.TwitchRequest(twitchRequestData, body)
 	if responseErr != nil {
-		return nil, responseErr
+		return responseErr
 	}
 
-	return []byte(responseString), nil
+	if JSONerr := json.Unmarshal([]byte(responseString), a); JSONerr != nil && a != nil {
+		return JSONerr
+	}
+
+	return nil
 }

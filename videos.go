@@ -1,7 +1,6 @@
 package twitchgo
 
 import (
-	"encoding/json"
 	"fmt"
 )
 
@@ -24,13 +23,11 @@ func (sess *Session) GetVideos(ID string, userID string, gameID string, optional
 		getVideosParams[key] = value
 	}
 
-	data, dataErr := sess.GetResponse(addParams(getVideosParams, GetVideosURL, []string{"id", "user_id", "game_id"}), "GET", false, true, nil)
+	var getVideosJSON GetVideosJSON
+	data, dataErr := sess.GetResponse(addParams(getVideosParams, GetVideosURL, []string{"id", "user_id", "game_id"}), "GET", false, true, nil, &getVideosJSON)
 	if dataErr != nil {
 		return nil, dataErr
 	}
-
-	var getVideosJSON GetVideosJSON
-	json.Unmarshal(data, &getVideosJSON)
 
 	return &getVideosJSON, nil
 }

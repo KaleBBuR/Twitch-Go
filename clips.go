@@ -1,33 +1,25 @@
 package twitchgo
 
-import (
-	"encoding/json"
-)
-
 func (sess *Session) CreateClip(createClipParams map[string]interface{}) (*CreateClipJSON, error) {
 	requiredCreateClipParams := []string{"broadcaster_id"}
 
-	data, dataErr := sess.GetResponse(addParams(createClipParams, CreateGetClipURL, requiredCreateClipParams), "POST", true, true, nil)
+	var createClipJSON CreateClipJSON
+	dataErr := sess.GetResponse(addParams(createClipParams, CreateGetClipURL, requiredCreateClipParams), "POST", true, true, nil, &createClipJSON)
 	if dataErr != nil {
 		return nil, dataErr
 	}
 
-	createClipJSON := &CreateClipJSON{}
-	json.Unmarshal(data, createClipJSON)
-
-	return createClipJSON, nil
+	return &createClipJSON, nil
 }
 
 func (sess *Session) GetClip(getClipParams map[string]interface{}) (*GetClipJSON, error) {
 	requiredGetClipParams := []string{"broadcaster_id", "game_id", "id"}
 
-	data, dataErr := sess.GetResponse(addParams(getClipParams, CreateGetClipURL, requiredGetClipParams), "GET", true, true, nil)
+	var getClipJSON GetClipJSON
+	dataErr := sess.GetResponse(addParams(getClipParams, CreateGetClipURL, requiredGetClipParams), "GET", true, true, nil, &getClipJSON)
 	if dataErr != nil {
 		return nil, dataErr
 	}
 
-	getClipJSON := &GetClipJSON{}
-	json.Unmarshal(data, getClipJSON)
-
-	return getClipJSON, nil
+	return &getClipJSON, nil
 }

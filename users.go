@@ -1,7 +1,6 @@
 package twitchgo
 
 import (
-	"encoding/json"
 	"fmt"
 )
 
@@ -20,13 +19,11 @@ func (sess *Session) GetUsers(optionalParams map[string]interface{}) (*GetUsersJ
 		getUsersParams[key] = value
 	}
 
-	data, dataErr := sess.GetResponse(addParams(getUsersParams, GetUsersURL, []string{}), "GET", true, true, nil)
+	var getUsersJSON GetUsersJSON
+	dataErr := sess.GetResponse(addParams(getUsersParams, GetUsersURL, []string{}), "GET", true, true, nil, &getUsersJSON)
 	if dataErr != nil {
 		return nil, dataErr
 	}
-
-	var getUsersJSON GetUsersJSON
-	json.Unmarshal(data, &getUsersJSON)
 
 	return &getUsersJSON, nil
 }
@@ -46,13 +43,12 @@ func (sess *Session) GetUsersFollowers(optionalParams map[string]interface{}) (*
 		getUsersFollowsParams[key] = value
 	}
 
-	data, dataErr := sess.GetResponse(addParams(getUsersFollowsParams, GetUsersFollowsURL, []string{}), "GET", false, true, nil)
+	var getUsersFollowsJSON GetUsersFollowsJSON
+	dataErr := sess.GetResponse(addParams(getUsersFollowsParams, GetUsersFollowsURL, []string{}), "GET", false, true, nil, &getUsersFollowsJSON)
 	if dataErr != nil {
 		return nil, dataErr
 	}
 
-	var getUsersFollowsJSON GetUsersFollowsJSON
-	json.Unmarshal(data, &getUsersFollowsJSON)
 	return &getUsersFollowsJSON, nil
 }
 
@@ -63,25 +59,21 @@ func (sess *Session) UpdateUser(description string) (*GetUsersJSON, error) {
 	// Optional Params
 	getUpdateUserParams["description"] = description
 
-	data, dataErr := sess.GetResponse(addParams(getUpdateUserParams, GetUsersURL, []string{}), "PUT", true, false, nil)
+	var getUpdateUserJSON GetUsersJSON
+	dataErr := sess.GetResponse(addParams(getUpdateUserParams, GetUsersURL, []string{}), "PUT", true, false, nil, &getUpdateUserJSON)
 	if dataErr != nil {
 		return nil, dataErr
 	}
-
-	var getUpdateUserJSON GetUsersJSON
-	json.Unmarshal(data, &getUpdateUserJSON)
 
 	return &getUpdateUserJSON, nil
 }
 
 func (sess *Session) GetUserExtensions() (*GetUserExtensionsJSON, error) {
-	data, dataErr := sess.GetResponse(GetUserExtensionsURL, "GET", true, false, nil)
+	var getUserExtensionsJSON GetUserExtensionsJSON
+	dataErr := sess.GetResponse(GetUserExtensionsURL, "GET", true, false, nil, &getUserExtensionsJSON)
 	if dataErr != nil {
 		return nil, dataErr
 	}
-
-	var getUserExtensionsJSON GetUserExtensionsJSON
-	json.Unmarshal(data, &getUserExtensionsJSON)
 
 	return &getUserExtensionsJSON, nil
 }

@@ -17,13 +17,11 @@ func (sess *Session) CheckAutoModStatus(broadcasterID string, body []AutoModStat
 		return nil, jsonErr
 	}
 
-	data, dataErr := sess.GetResponse(addParams(postCheckAutoModStatusParams, CheckAutoModStatusURL, []string{"broadcaster_id"}), "POST", false, false, autoModStatusBody)
+	var postAutoModStatusJSON PostAutoModStatusJSON
+	dataErr := sess.GetResponse(addParams(postCheckAutoModStatusParams, CheckAutoModStatusURL, []string{"broadcaster_id"}), "POST", false, false, autoModStatusBody, &postAutoModStatusJSON)
 	if dataErr != nil {
 		return nil, dataErr
 	}
-
-	var postAutoModStatusJSON PostAutoModStatusJSON
-	json.Unmarshal(data, &postAutoModStatusJSON)
 
 	return &postAutoModStatusJSON, nil
 }
@@ -45,13 +43,11 @@ func (sess *Session) GetBannedEvents(broadcasterID string, optionalParams map[st
 		getBannedEventsParams[key] = value
 	}
 
-	data, dataErr := sess.GetResponse(addParams(getBannedEventsParams, GetBannedEventsURL, []string{"broadcaster_id"}), "GET", true, false, nil)
+	var getBannedEventsJSON GetBannedEventsJSON
+	dataErr := sess.GetResponse(addParams(getBannedEventsParams, GetBannedEventsURL, []string{"broadcaster_id"}), "GET", true, false, nil, &getBannedEventsJSON)
 	if dataErr != nil {
 		return nil, dataErr
 	}
-
-	var getBannedEventsJSON GetBannedEventsJSON
-	json.Unmarshal(data, &getBannedEventsJSON)
 
 	return &getBannedEventsJSON, nil
 }
@@ -73,13 +69,11 @@ func (sess *Session) GetBannedUsers(broadcasterID string, optionalParams map[str
 		getBannedUsersParams[key] = value
 	}
 
-	data, dataErr := sess.GetResponse(addParams(getBannedUsersParams, GetBannedUsersURL, []string{"broadcaster_id"}), "GET", true, false, nil)
+	var getBannedUsersJSON GetBannedUsersJSON
+	dataErr := sess.GetResponse(addParams(getBannedUsersParams, GetBannedUsersURL, []string{"broadcaster_id"}), "GET", true, false, nil, &getBannedUsersJSON)
 	if dataErr != nil {
 		return nil, dataErr
 	}
-
-	var getBannedUsersJSON GetBannedUsersJSON
-	json.Unmarshal(data, &getBannedUsersJSON)
 
 	return &getBannedUsersJSON, nil
 }
@@ -101,13 +95,11 @@ func (sess *Session) GetMods(broadcasterID string, optionalParams map[string]int
 		getModsParams[key] = value
 	}
 
-	data, dataErr := sess.GetResponse(addParams(getModsParams, GetModsURL, []string{"broadcaster_id"}), "GET", true, false, nil)
+	var getModsJSON GetModsJSON
+	dataErr := sess.GetResponse(addParams(getModsParams, GetModsURL, []string{"broadcaster_id"}), "GET", true, false, nil, &getModsJSON)
 	if dataErr != nil {
 		return nil, dataErr
 	}
-
-	var getModsJSON GetModsJSON
-	json.Unmarshal(data, &getModsJSON)
 
 	return &getModsJSON, nil
 }
@@ -129,13 +121,11 @@ func (sess *Session) GetModEvents(broadcasterID string, optionalParams map[strin
 		getModEventsParams[key] = value
 	}
 
-	data, dataErr := sess.GetResponse(addParams(getModEventsParams, GetModEventsURL, []string{"broadcaster_id"}), "GET", true, false, nil)
+	var getModEventsJSON GetModEventsJSON
+	dataErr := sess.GetResponse(addParams(getModEventsParams, GetModEventsURL, []string{"broadcaster_id"}), "GET", true, false, nil, &getModEventsJSON)
 	if dataErr != nil {
 		return nil, dataErr
 	}
-
-	var getModEventsJSON GetModEventsJSON
-	json.Unmarshal(data, &getModEventsJSON)
 
 	return &getModEventsJSON, nil
 }
