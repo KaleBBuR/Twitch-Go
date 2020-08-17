@@ -24,7 +24,7 @@ func (sess *Session) GetVideos(ID string, userID string, gameID string, optional
 	}
 
 	var getVideosJSON GetVideosJSON
-	data, dataErr := sess.GetResponse(addParams(getVideosParams, GetVideosURL, []string{"id", "user_id", "game_id"}), "GET", false, true, nil, &getVideosJSON)
+	dataErr := sess.GetResponse(addParams(getVideosParams, GetVideosURL, []string{"id", "user_id", "game_id"}), "GET", false, true, nil, &getVideosJSON)
 	if dataErr != nil {
 		return nil, dataErr
 	}
