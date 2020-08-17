@@ -25,16 +25,15 @@ func (sess *Session) GetTopGames(optionalParams map[string]interface{}) (*GetTop
 	return &getTopGamesJSON, nil
 }
 
-func (sess *Session) GetGames(ID string, name string) (*GetGamesJSON, error) {
+func (sess *Session) GetGames(ID string) (*GetGamesJSON, error) {
 	getGamesParams := make(map[string]interface{})
 
 	// Required Params
 	getGamesParams["id"] = ID
-	getGamesParams["name"] = name
 	// Optional Params -> None
 
 	var getGamesJSON GetGamesJSON
-	dataErr := sess.GetResponse(addParams(getGamesParams, GetGamesURL, []string{"id", "name"}), "GET", false, true, nil, &getGamesJSON)
+	dataErr := sess.GetResponse(addParams(getGamesParams, GetGamesURL, []string{"id", "name"}), "GET", true, true, nil, &getGamesJSON)
 	if dataErr != nil {
 		return nil, dataErr
 	}
