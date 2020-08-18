@@ -33,7 +33,7 @@ func (sess *Session) GetGames(ID string) (*GetGamesJSON, error) {
 	// Optional Params -> None
 
 	var getGamesJSON GetGamesJSON
-	dataErr := sess.GetResponse(addParams(getGamesParams, GetGamesURL, []string{"id", "name"}), "GET", true, true, nil, &getGamesJSON)
+	dataErr := sess.GetResponse(addParams(getGamesParams, GetGamesURL, []string{"id"}), "GET", true, true, nil, &getGamesJSON)
 	if dataErr != nil {
 		return nil, dataErr
 	}
